@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>学员信息录入</title>
+  <link rel="stylesheet" type="text/css" href="student_manager.css">
+ </head>
+ <body>
+		<!--主界面-->
+		<div class="page">
+			<!--操作区-->
+			<div class="main">
+				<div class="update">
+					<h2>学员信息登记系统</h2>
+					<div class="input">
+						<form>
+						姓名<input  type="text" style="width:100px" id="f_name">
+						年龄<input style="width:50px" id="f_age">
+						性别:<input type="radio" name="sex" value="男" >男
+							<input type="radio" name="sex" value="女" >女</br>
+							<button type="button" id="submit" style="width: 50px;height: 20px;margin: 10px;"> 保存</button>
+		                    <button type="reset" id="clear" style="width: 50px;height: 20px;margin: 10px;">清空</button>
+							<p id="error1"></p>
+							<p id="error2"></p>
+							<p id="error3"></p>
+							<p id="error"></p>
+						</form>
+					</div>
+					
+				</div>
+				<table class="basicData" border="1" cellspacing="0" cellpadding="0" id="table">
+					<tr >
+						<td >序号</td>
+						<td >姓名</td>
+						<td >年龄</td>
+						<td >性别</td>
+						<td >操作</td>
+				    </tr>
+					
+				</table>
+			</div>
+
+		</div>
+  <script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
+ <script text="text/javascript" >
+ /*  表单验证*/
+	var isError1 = true;//维护验证信息,当不输入的时候，默认有错误
+	var isError2 = true;//维护验证信息
+	var isError3 = true;//维护验证信息
+	$(function(){
+		$("#f_name").blur(function(){//验证性别
+			var regex = /^[\u4E00-\u9FA5]{2,4}$/;
+			var str = $("#f_name").val();
+			
+			if(!regex.test(str)){
+				$("#error1").html("提示1：姓名必须是2~4个中文字符");
+				isError1 = true;
+			
+			}else{
+				$("#error1").html('');
+				isError1 = false;
+
+			}
+		})
+		$("#f_age").blur(function(){//验证年龄
+			var regex = /^120$|^((1[0-1]|[1-9])?\d)$/;
+			var str = $("#f_age").val();
+			
+			if(!regex.test(str)){
+				$("#error2").html("提示2：年龄区间1~120");
+				isError2 = true;
+			
+			}else{
+				$("#error2").html('');
+				isError2= false;
+
+			}
+		})
+	})
+
+		function isChecked(){//验证性别
+			if($(":checked").length===0){
+				$("#error3").html("提示3：请选择性别信息");
+				isError3 = true;
+				
+			}else{
+				$("#error3").html('');
+
+				isError3 = false;
+			}
+		}
+	var flag = false;//判断是否进行修改 是：true
+	var number = 0;//接收修改行的序号
+	$(function(){
+			
+			$("#submit").click( function(){
+
+				isChecked();
+				console.dir(isError1||isError2);
+				if(isError1||isError2||isError3){
+					$("#error").html("信息不合法，请重新输入！点“保存”键确认信息...");
+					throw error;
+				}else{
+					$("#error").html("");
+				}
+
+
+				if(!flag){
+				var obj = $("#table");
+				obj.append(addTr());
+				}else{
+					for(var i = 0; i < index ;i++){
+						var num = $(".index")[i].innerHTML;
+						if(num == number){
+							var tr = $($(".index")[i]).parent();
+							tr.empty().append(addTd());
+
+						}
+					}
+					flag = false;
+					
+				}
+			$("form")[0].reset();
+			$(":checked").removeAttr("checked");
+
+			});
+
+
+			$("#clear").click(function(){
+				$(":checked").removeAttr("checked");
+				$("#error1").html('');
+				$("#error2").html('');
+				$("#error3").html('');
+				$("#error").html("");
+			
+			})
+			
+			
+			
+
+	})	
+		var index = 0;//维护总行数
+//添加一行tr的html语句
+		function addTr(){
+			index++;
+			var addTd = "";
+			addTd += "<td class='index'>"+index +"</td>";
+			addTd += "<td>"+$("#f_name").val() +"</td>";
+			addTd += "<td>"+$("#f_age").val() +"</td>";
+			addTd += "<td>"+$(":checked").val() +"</td>";
+			addTd += "<td><a href='javascript:void(0)' onclick = 'update(this)'>修改</a>|"
+					+"<a  href='javascript:void(0)' onclick = 'deleteTr(this)'>删除</a></td>";
+			return "<tr>"+ addTd+"</tr>";
+		}
+//修改操作中  清空添加一行tr  添加若干td html语句
+		function addTd(){
+			var addTd = "";
+			addTd += "<td class='index'>"+number +"</td>";
+			addTd += "<td>"+$("#f_name").val() +"</td>";
+			addTd += "<td>"+$("#f_age").val() +"</td>";
+			addTd += "<td>"+$(":checked").val() +"</td>";
+			addTd += "<td><a href='javascript:void(0)' onclick = 'update(this)'>修改</a>|"
+					+"<a  href='javascript:void(0)' onclick = 'deleteTr(this)'>删除</a></td>";
+			return  addTd;
+		}
+		//删除一行
+		function deleteTr(obj){
+			$(obj).parents("tr").remove();
+			var i = 0;
+			var len = index--;
+			for( ; i < len; i++){
+				$($(".index")[i]).html(i+1);
+			}
+			
+			
+			
+		}
+
+		//将要更新的行数据返回到表单
+		function update (obj){
+			var myvalue = new Array();
+			for(var i = 0; i <4;i++){
+				myvalue[i] = $(obj).parents("tr").children()[i].innerText;
+			}
+			$("#f_name").val(myvalue[1]);
+			$("#f_age").val(myvalue[2]);
+			if(myvalue[3]=="男"){
+				$("[value='男']").attr("checked",'checked');
+			}
+			if(myvalue[3]=="女"){
+				$("[value='女']").attr("checked",'checked');
+			}
+			flag = true;
+			number = myvalue[0];//记录修改行号
+		}
+
+  </script>
+ </body>
+</html>

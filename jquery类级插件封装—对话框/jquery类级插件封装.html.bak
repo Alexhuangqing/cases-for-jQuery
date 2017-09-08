@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>对话框案例</title>
+ </head>
+ <link rel="stylesheet" type="text/css" href="jquery.css">
+ <body>
+		<button id="btn">请点击</button>
+	
+		
+  
+  <script type="text/javascript"  src="../js/jquery-3.2.1.js"></script>
+  <script type="text/javascript"  src="jquery_chajian.js"></script>
+  <script type="text/javascript" >
+		$(function(){
+			$("#btn").click(function(){
+				var opts={
+					title:'今日事项',
+					content:"传代码？",
+					width:400,
+					height:300,
+					enterText:'要传',
+					cancelText:'打死也要传',
+					enterCall:function(){
+					    alert("是这样")
+				    },
+				    cancelCall:function(){
+					    alert("勉强是这样")
+				    }
+					
+				};
+
+				$.dialog(opts);
+			})
+
+			
+		
+		})
+  </script>
+ </body>
+</html>

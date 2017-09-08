@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>放大镜</title>
+  <style type="text/css">
+	.min{
+		border:2px solid black;
+		width:450px;
+		height:450px;
+		float:left;
+		position:relative;
+	}
+	.max{
+		border:2px solid black;
+		width:450px;
+		height:450px;
+		float:left;
+		overflow:hidden;
+		position:relative;
+		display:none;
+	}
+	.min .fd{
+		width: 10px;
+		height: 10px;
+		border: 1px solid #bcecb3;
+		position: absolute;
+		left: 0px;
+		top: 0px;
+		border-radius: 5px;
+		background: rgba(107, 134, 130, 0.1);
+		display:none;
+	}
+	#p_max{
+	position:absolute;
+	top:0px;
+	left:0px;
+	
+	}
+
+
+  </style>
+ </head>
+ <body>
+		<div class="min">
+			<img src="pictures/p_min.jpg" id="p_min">
+			<div class="fd"></div>
+		</div>
+		<div class="max">
+			<img src="pictures/p_max.jpg" id="p_max">
+		</div>
+
+  <script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
+  <script type="text/javascript" >
+		$(function(){
+			$(".min").mousemove(function(event){
+
+				//找到鼠标相对于框的位置
+				
+				var _x = event.pageX-$(".min").offset().left;
+				
+				var _y = event.pageY-$(".min").offset().top;
+				//放大镜随着鼠标移动
+				$(".min .fd").css({left:_x+"px",top:_y+"px"}).show();
+				//找到鼠标相对于大图片的位置-鼠标相对于大图框的位置
+				
+				
+				
+				var x_move = _x*$("#p_max").width()/$("#p_min").width()-_x;
+				var y_move = _y*$("#p_max").height()/$("#p_min").height()-_y;
+				
+				//就等于大图片相对于图框鼠标要移动的位置  （注意符号）
+				$(".max").show();
+				$("#p_max").css({
+					left:-x_move+"px",
+					top:-y_move+"px",
+				}).show();
+			
+			
+			
+			});
+			//最后隐藏
+			$(".min").mouseout(function(){
+				$(".min .fd").hide();
+				$("#p_max").hide();
+				$(".max").hide();
+				
+			})
+			
+			
+
+		
+		})
+  
+  
+  
+  </script>
+ </body>
+</html>

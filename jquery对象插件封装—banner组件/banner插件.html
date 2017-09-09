@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>banner轮播图</title>
+  <link rel="stylesheet" type="text/css" href="banner.css">
+ </head>
+ <body>
+	<div class="banner">
+		<div class="pannel">
+			<div class="scroll">
+				<a href="javascript:void(0)"><img src="images/1.jpg"></a>
+				<a href="javascript:void(0)"><img src="images/2.jpg"></a>
+				<a href="javascript:void(0)"><img src="images/3.jpg"></a>
+				<a href="javascript:void(0)"><img src="images/4.jpg"></a>
+				<a href="javascript:void(0)"><img src="images/5.jpg"></a>
+			</div>
+			<div class="btns">
+				<span class="btn  actived"></span>
+				<span class="btn"></span>
+				<span class="btn"></span>
+				<span class="btn"></span>
+				<span class="btn"></span>
+			</div>
+			
+		</div>
+		<a href="javascript:void(0)" class="prev"></a>
+		<a href="javascript:void(0)" class="next"></a>
+	</div>
+
+<script type="text/javascript" src="../js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="banner.js"></script>
+
+<script type="text/javascript" >
+	
+	$(function(){
+		var index = 0;//维护当前图片序号，共有属性 (一定要给默认值)
+
+		$(".btn").mouseover(function(){
+			 index=$(this).index()
+			$(".btn").eq(index).addClass("actived").siblings().removeClass("actived");
+			$(".scroll").animate({left:-index*$("img")[0].width+"px"},1000);
+		});
+
+		$(".prev").click(function(){
+			if(index == 0){
+				index=4;
+				$(".scroll").animate({left:-index*$("img")[0].width+"px"},500);
+			}else{
+				index--;
+				$(".scroll").animate({left:-index*$("img")[0].width+"px"},500);
+			}
+			$(".btn").eq(index).addClass("actived").siblings().removeClass("actived");
+		
+		})
+		$(".next").click(function(){
+			
+			if(index == 4){
+
+				index=0;
+				$(".scroll").animate({left:-index*$("img")[0].width+"px"},500);
+			}else{
+				
+				index++;
+				$(".scroll").animate({left:-index*$("img")[0].width+"px"},500);
+			}
+			$(".btn").eq(index).addClass("actived").siblings().removeClass("actived");
+		})
+		var timer;//准备定时器
+		function startPlay(){
+			    timer = setInterval(function(){
+				index++;
+				if(index == 5){
+					index = 0;
+				}
+				
+				$(".scroll").animate({left:-index*$("img")[0].width+"px"},500);
+				
+				$(".btn").eq(index).addClass("actived").siblings().removeClass("actived");
+				
+			},2000);
+		
+		};
+		$(".banner").mouseover(function(){
+				clearInterval(timer);
+		});
+		$(".banner").mouseout(function(){
+				startPlay();
+		});
+
+		startPlay();
+	
+	});
+		
+		
+
+
+
+
+
+</script>
+
+
+
+ </body>
+</html>

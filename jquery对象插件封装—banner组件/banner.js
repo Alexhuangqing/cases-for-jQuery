@@ -1,0 +1,112 @@
+/**
+ *auther:Alexhuangqing
+ *project:banner
+ *
+ */
+ jQuery.fn.banner = function(opts){
+	 //1.默认配置变量
+	 var defalts={
+					width:590,
+					height:340,
+					img:[],//数组，里面是若干json对象，每个对象包含src与href两个必要属性
+					speed:500,//自定义动画切换时间
+					delay:2000,//自定义触发切换的时间间隔
+				}
+	//2.传参整和对象
+	var opts = $.extend({},defalts,opts);
+	//3.拼插件的HTML
+
+	//3.1主模板
+	var template = "<div class=\"pannel\">"+
+						"<div class=\"scroll\">"
+
+	//3.2banner图的个数与按钮个数
+	var tempbtns = "";
+	for(var i = 0; i < opts.img.length; i++){
+		template += '<a href="'+opts.img[i].href+'"><img src="'+opts.img[i].src+'"></a>';
+		tempbtns += '<span class="btn"></span>';
+
+	}
+	//4.完成插件的HTML
+	template += '</div>'+
+			'<div class="btns">'+
+			tempbtns+
+			'</div>'+
+			'</div>'+
+			'<a href="javascript:void(0)" class="prev"></a>'+
+			'<a href="javascript:void(0)" class="next"></a>';
+	//5.配置化css
+	$(this).addClass("banner");
+	$(this).append(template);
+	console.dir("1");
+	$(this).find(".pannel .scroll").css({width:opts.width*opts.img.length+"px",height:opts.height+"px"});
+	$(this).find(".pannel").css({width:opts.width+"px",height:opts.height+"px"});
+	$(this).css({width:opts.width+"px",height:opts.height+"px"});
+	$(this).find(".prev, .next").css("top",(opts.height-70)/2+"px");
+	$(this).find(".btn:first").addClass("actived");
+	   
+	;
+	//6.配置化jquery
+	
+		var index = 0;//维护当前图片序号，共有属性 (一定要给默认值)
+
+		$(this).find(".btn").mouseover(function(){
+			 index = $(this).index();
+			 play();
+		});
+
+		$(this).find(".prev").click(function(){
+			if(index == 0){
+				index = opts.img.length-1;
+				play();
+			}else{
+				index--;
+				play();
+			}
+			
+		
+		})
+		$(this).find(".next").click(function(){
+			
+			if(index == opts.img.length-1){
+
+				index = 0;
+				play();
+			}else{
+				index++;
+				play();
+			}
+		})
+
+		var _this = this;//变量替换，'this'关键字定义到函数中，会是调用该函数的对象，而我们想要传入的是调用banner方法的对象
+		function play(){
+			$(_this).find(".btn").eq(index).addClass("actived").siblings().removeClass("actived");
+			$(_this).find(".scroll").animate({left:-index*$("img")[0].width+"px"},opts.speed);
+		}
+
+
+		var timer;//准备定时器
+		function startPlay(){
+			    timer = setInterval(function(){
+				index++;
+				if(index == opts.img.length){
+					index = 0;
+				}
+				
+				play();
+				
+			},opts.delay);
+		
+		};
+		$(this).mouseover(function(){
+				clearInterval(timer);
+		});
+		$(this).mouseout(function(){
+				startPlay();
+		});
+
+		startPlay();
+	
+
+ 
+ }

@@ -1,0 +1,88 @@
+ *{margin:0;padding:0}
+ .banner{
+	 /* */
+	width:590px;
+	height:340px;
+	/* */
+	margin:0 auto;
+	position:relative;
+	overflow:hidden;
+
+ 
+ } 
+ .banner .pannel{
+	/* */
+	width:100%;//相对于父原素
+	height:100%;//相对于父原素
+	/* */
+	position:relative;
+	overflow:hidden;
+ 
+ }
+ .banner .pannel .scroll{
+	/* */
+	width: 10000px;//这样才能有足够的宽度让图片浮起来
+    height: 340px;
+	/* */
+	overflow:hidden;
+	position:absolute;
+	top:0;
+	left:0;
+ }
+
+ .banner .scroll a{
+	float:left;
+ }
+ .banner .pannel .btns{
+    line-height: 21px;
+    position: absolute;
+    bottom: 5px;
+    width: 100%;
+    background: rgba(110, 110, 181, 0.29);
+    text-align: center;
+ }
+.banner .pannel span{
+	display:inline-block;
+	width:12px;
+	height:12px;
+	background:url("images/but1.png");
+	cursor:pointer;
+	margin-right:5px;
+
+}
+.banner .pannel span:hover{
+	width:16px;
+	height:16px;
+	background:url("images/but2.png");
+}
+.banner .pannel .actived{
+	width:16px;
+	height:16px;
+	background:url("images/but2.png");
+}
+
+.banner .prev, .banner .next{
+	display:inline-block;
+	width:70px;
+	height:70px;
+	position:absolute;
+	top:135px;
+
+
+}
+.banner .prev{
+	background:url("images/aprev.png");
+	left:0px;
+}
+.banner .next{
+	background:url("images/anext.png");
+	right:0px;
+}
+.banner .prev:hover{
+	background:url("images/prev.png");
+}
+.banner .next:hover{
+	background:url("images/next.png");
+}
+
+
